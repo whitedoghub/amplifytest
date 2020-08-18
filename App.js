@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Linking, Text, View} from 'react-native';
-import Amplify, {Auth, Hub} from 'aws-amplify';
+import React, { useEffect, useState } from 'react';
+import { Button, Linking, Text, SafeAreaView, StyleSheet } from 'react-native';
+import Amplify, { Auth, Hub } from 'aws-amplify';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import awsconfig from './aws-exports';
 
 async function urlOpener(url, redirectUrl) {
   await InAppBrowser.isAvailable();
-  const {type, url: newUrl} = await InAppBrowser.openAuth(url, redirectUrl, {
+  const { type, url: newUrl } = await InAppBrowser.openAuth(url, redirectUrl, {
     showTitle: false,
     enableUrlBarHiding: true,
     enableDefaultShare: false,
@@ -30,7 +30,7 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    Hub.listen('auth', ({payload: {event, data}}) => {
+    Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
         case 'signIn':
         case 'cognitoHostedUI':
@@ -56,18 +56,39 @@ function App() {
   }
 
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <Text>User: {user ? JSON.stringify(user.attributes) : 'None'}</Text>
       {user ? (
         <Button title="Sign Out" onPress={() => Auth.signOut()} />
       ) : (
         <Button
           title="Federated Sign In"
-          onPress={() => Auth.federatedSignIn({provider: 'Google'})}
+          onPress={() => Auth.federatedSignIn({ provider: 'Google' })}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    backgroundColor: '#eaeaea',
+    justifyContent: 'center',
+  },
+  title: {
+    marginTop: 16,
+    paddingVertical: 8,
+    borderWidth: 4,
+    borderColor: '#20232a',
+    borderRadius: 6,
+    backgroundColor: '#61dafb',
+    color: '#20232a',
+    textAlign: 'center',
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+});
 
 export default App;
