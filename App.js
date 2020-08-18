@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Linking, Text, SafeAreaView, StyleSheet } from 'react-native';
+import {
+  Button,
+  Linking,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import Amplify, { Auth, Hub } from 'aws-amplify';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import awsconfig from './aws-exports';
@@ -61,10 +68,11 @@ function App() {
       {user ? (
         <Button title="Sign Out" onPress={() => Auth.signOut()} />
       ) : (
-        <Button
-          title="Federated Sign In"
-          onPress={() => Auth.federatedSignIn({ provider: 'Google' })}
-        />
+        <TouchableOpacity
+          style={styles.title}
+          onPress={() => Auth.federatedSignIn({ provider: 'Google' })}>
+          <Text>Google SignIn</Text>
+        </TouchableOpacity>
       )}
     </SafeAreaView>
   );
@@ -78,6 +86,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
+    alignItems: 'center',
     marginTop: 16,
     paddingVertical: 8,
     borderWidth: 4,
@@ -85,7 +94,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: '#61dafb',
     color: '#20232a',
-    textAlign: 'center',
     fontSize: 30,
     fontWeight: 'bold',
   },
