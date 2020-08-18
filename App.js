@@ -3,6 +3,7 @@ import {
   Button,
   Linking,
   Text,
+  View,
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
@@ -64,15 +65,17 @@ function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>User: {user ? JSON.stringify(user.attributes) : 'None'}</Text>
-      {user ? (
-        <Button title="Sign Out" onPress={() => Auth.signOut()} />
-      ) : (
-        <TouchableOpacity
-          onPress={() => Auth.federatedSignIn({ provider: 'Google' })}>
-          <Text>Google SignIn</Text>
-        </TouchableOpacity>
-      )}
+      <View style={styles.containerView}>
+        <Text>User: {user ? JSON.stringify(user.attributes) : 'None'}</Text>
+        {user ? (
+          <Button title="Sign Out" onPress={() => Auth.signOut()} />
+        ) : (
+          <TouchableOpacity
+            onPress={() => Auth.federatedSignIn({ provider: 'Google' })}>
+            <Text>Google SignIn</Text>
+          </TouchableOpacity>
+        )}
+      </View>
     </SafeAreaView>
   );
 }
@@ -80,9 +83,11 @@ function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
-    backgroundColor: '#eaeaea',
+  },
+  containerView: {
+    flex: 1,
     justifyContent: 'center',
+    marginHorizontal: 20,
   },
 });
 
