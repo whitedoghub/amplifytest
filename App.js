@@ -41,10 +41,12 @@ function App() {
     Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
         case 'signIn':
+          console.log('Hub.listen : signIn');
         case 'cognitoHostedUI':
           getUser().then((userData) => setUser(userData));
           break;
         case 'signOut':
+          console.log('Hub.listen : signOut');
           setUser(null);
           break;
         case 'signIn_failure':
@@ -54,14 +56,14 @@ function App() {
       }
     });
 
+    console.log('===> useEffect');
     getUser().then((userData) => setUser(userData));
   }, []);
 
-  function getUser() {
-    return Auth.currentAuthenticatedUser()
+  const getUser = () =>
+    Auth.currentAuthenticatedUser()
       .then((userData) => userData)
       .catch(() => console.log('Not signed in'));
-  }
 
   return (
     <SafeAreaView style={styles.container}>
