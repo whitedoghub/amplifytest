@@ -71,8 +71,9 @@ function App() {
           <Button title="Sign Out" onPress={() => Auth.signOut()} />
         ) : (
           <TouchableOpacity
+            style={styles.button}
             onPress={() => Auth.federatedSignIn({ provider: 'Google' })}>
-            <Text>Google SignIn</Text>
+            <Text style={styles.buttonName}>Google SignIn</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -88,6 +89,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     marginHorizontal: 20,
+  },
+  button: {
+    marginTop: 20,
+    backgroundColor: '#CED8F6',
+    height: 50,
+    justifyContent: 'center',
+    borderRadius: 10,
+  },
+  buttonName: {
+    textAlign: 'center',
+    fontSize: 20,
   },
 });
 
